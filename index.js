@@ -26,6 +26,7 @@ const socketIo = require('socket.io')(server, {
 app.use(bodyParser.json());
 app.use(cors({
     origin: 'https://mvfw.social',
+    methods: ['GET', 'POST'],
     credentials: true
 }));
 app.use(express.json());
