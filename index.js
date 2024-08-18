@@ -16,7 +16,7 @@ const http = require('http');
 const server = http.createServer(app);
 const socketIo = require('socket.io')(server, {
     cors: {
-        origin: 'https://mvfw.social',
+        origin: 'https://www.mvfw.social/',
         methods: ['GET', 'POST'],
         credentials: true
     }
@@ -25,7 +25,7 @@ const socketIo = require('socket.io')(server, {
 // Middleware
 app.use(bodyParser.json());
 app.use(cors({
-    origin: 'https://mvfw.social',
+    origin: 'https://www.mvfw.social/',
     methods: ['GET', 'POST'],
     credentials: true
 }));
