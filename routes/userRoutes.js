@@ -139,21 +139,21 @@ router.get('/admin', async (req, res) => {
 
 // Login Route
 router.post('/login', async (req, res) => {
-    const { email, password, category } = req.body;
+    const { email, password } = req.body;
 
     try {
         // Find the user by email and category
-        const user = await User.findOne({ email, category });
+        const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(400).json({ error: 'Invalid email, password, or category.' });
+            return res.status(400).json({ error: 'Invalid email or password' });
         }
 
         // Check the password
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.status(400).json({ error: 'Invalid email, password, or category.' });
+            return res.status(400).json({ error: 'Invalid email or password' });
         }
 
         // Check if user is blocked
@@ -164,7 +164,13 @@ router.post('/login', async (req, res) => {
         const token = createAuthorizationToken(user);
 
         // Successful login
-        res.status(200).json({ message: 'Login successful!', user, token });
+        res.status(200).json({
+            message: 'Login successful!',
+            userId: user._id,
+            email: user.email,
+            category: user.category, // Return the category from the database
+            token, // Return token if applicable
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });
